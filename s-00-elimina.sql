@@ -1,0 +1,3 @@
+--@Autor: Rangel de la Rosa Jose Refugio
+--@Fecha creación: 09/05/2022
+--@Descripción: elimina a los usuario todo lo que fue creado
