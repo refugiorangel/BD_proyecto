@@ -1,0 +1,7 @@
+Relacions con refugio, clínicas. Correctas o directas a centro_operativo.
+relacion mascota cliente 1:M junto con clinica M:M 
+fecha donativo y monto donativo en m:m o 1:M
+ralacion mascota - mascota modificar para guardar ambos padres o solo uno.
+los subtipos son extra por los atributos especializados.
+la subcategoria es un atributo o una relacion 
+manejo multiples titulos y fechas de titulacion para cada empleado

@@ -2,9 +2,9 @@
 --@Fecha creación: 09/05/2022
 --@Descripción: Creación de tablas y constraints
 
---Tabla centro operativo
-create table centro(
-    centro_id     number(10,0)    not null,
+--Tabla centro_operativo operativo
+create table centro_operativo(
+    centro_operativo_id     number(10,0)    not null,
     nombre        varchar2(20)    not null,
     codigo        char(5)         not null,
     latitud       varchar2(20)    not null,
@@ -13,11 +13,11 @@ create table centro(
     es_refugio    number(1,0)     not null,
     es_clinica    number(1,0)     not null,
     es_oficina    number(1,0)     not null,
-    constraint centro_pk
-        primary key (centro_id),
-    constraint centro_tipo_chk
+    constraint centro_operativo_pk
+        primary key (centro_operativo_id),
+    constraint centro_operativo_tipo_chk
         check (es_refugio,es_clinica,es_oficina) in ((1,0,0),(0,1,0),(0,0,1),(1,1,0)),
-    constraint centro_codigo_uk 
+    constraint centro_operativo_codigo_uk 
         unique (codigo)
 );
 
@@ -79,48 +79,48 @@ create table veterinario(
 
 --Tabla refugio
 create table refugio(
-    centro_id           number(10,0)    not null,
+    centro_operativo_id           number(10,0)    not null,
     centro_alterno_id   number(10,0)        null,
     capacidad_maxima    number(5,0)     not null,
     logo                varchar2(40)    not null,
     lema                varchar2(100)   not null,
     numero_registro     char(8)         not null,
     constraint refugio_pk
-        primary key (centro_id),
-    constraint refugio_centro_id_fk
-        foreign key (centro_id)
-        references centro(centro_pk),
+        primary key (centro_operativo_id),
+    constraint refugio_centro_operativo_id_fk
+        foreign key (centro_operativo_id)
+        references centro_operativo(centro_operativo_id),
     constraint refugio_centro_alterno_id_fk
         foreign key (centro_alterno_id)
-        references refugio(centro_pk)
+        references refugio(centro_operativo_id)
 );
 
 --Tabla refugio web
 create table refugio_web(
     refugio_web_id      number(10,0)    not null,
     web                 varchar2(100)   not null,
-    centro_id           number(10,0)    not null,
+    centro_operativo_id           number(10,0)    not null,
     constraint refugio_web_pk
         primary key (refugio_web_id),
-    constraint refugio_web_centro_id_fk
-        foreign key (centro_id)
-        references refugio(centro_id),
+    constraint refugio_web_centro_operativo_id_fk
+        foreign key (centro_operativo_id)
+        references refugio(centro_operativo_id),
     constraint refugio_web_uk
         unique (web)
 );
 
 --Tabla clinica
 create table clinica(
-    centro_id           number(10,0)    not null,
+    centro_operativo_id           number(10,0)    not null,
     tel_emergencia      char(10)        not null,
     tel_cliente         char(10)        not null,
     hora_inicio         varchar2(5)     not null,
     hora_fin            varchar2(5)     not null,
     constraint clinica_pk
-        primary key (centro_id),
-    constraint clinica_centro_id_fk
-        foreign key (centro_id)
-        references  centro(centro_id),
+        primary key (centro_operativo_id),
+    constraint clinica_centro_operativo_id_fk
+        foreign key (centro_operativo_id)
+        references  centro_operativo(centro_operativo_id),
     constraint clinica_tel_emergencia_uk
         unique tel_emergencia,
     constraint clinica_tel_cliente_uk
@@ -129,15 +129,15 @@ create table clinica(
 
 --Tabla oficina
 create table oficina(
-    centro_id      number(10,0)    not null,
+    centro_operativo_id      number(10,0)    not null,
     rfc            char(18)        not null,
     e_firma        blob            not null,
     responsable    varchar2(100)   not null,
     constraint oficina_pk
-        primary key (centro_id),
-    constraint oficina_centro_id_fk
-        foreign key (centro_id)
-        references centro(centro_id),
+        primary key (centro_operativo_id),
+    constraint oficina_centro_operativo_id_fk
+        foreign key (centro_operativo_id)
+        references centro_operativo(centro_operativo_id),
     constraint oficina_responsable_uk
         unique (responsable),
     constraint oficina_e_firma_uk
@@ -192,10 +192,13 @@ create table mascota(
     fecha_ingreso           date            not null,
     fecha_adopcion          date        default null,
     fecha_status            date     default sysdate,
+    fecha_nacimiento        date            not null,
     origen                  char(1)         not null,
     causa_muerte            varchar2(100)       null,
+    tipo_id                 number(10,0)    not null, 
     status_id               number(10,0)    not null,
-    centro_nacimiento_id    number(10,0)        null,
+    centro_operativo_id     number(10,0)    not null,
+    centro__nacimiento_id   number(10,0)        null,
     cliente_id              number(10,0)        null,
 
     constraint mascota_pk
@@ -204,19 +207,22 @@ create table mascota(
         unique (folio),
     constraint mascota_origren_chk
         check origen in ('N','A','D'),
-    constraint mascota_nacimiento_centro_chk
-        check ((origen = 'N' and  centro_nacimiento_id is not null) or origen in ('A','D')),
+    constraint mascota_nacimiento_centro_operativo_chk
+        check ((origen = 'N' and  centro_nacimiento_id is not null) or (origen in ('A','D') and centro_nacimiento_id is null)),
     constraint mascota_donada_chk
-        check ((origen = 'D' and cliente_id is not null) or origen in ('A','N')),
+        check ((origen = 'D' and cliente_id is not null) or (origen in ('A','N') and cliente_id is null)),
     constraint mascota_status_id_fk
         foreign key (status_id)
         references status(status_id),
-    constraint mascota_centro_nacimiento_id
-        foreign key (centro_nacimiento_id)
-        references refugio(centro_id),
+    constraint mascota_centro_operativo_nacimiento_id
+        foreign key (centro_operativo_nacimiento_id)
+        references refugio(centro_operativo_id),
     constraint mascota_cliente_id_fk
         foreign key (cliente_id)
-        references cliente(cliente_id)
+        references cliente(cliente_id),
+    constraint mascota_tipo_id_fk
+        foreign key (tipo_id)
+        references tipo(tipo_id)
 );
 
 --Tabla historico status mascota
