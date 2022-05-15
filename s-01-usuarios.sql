@@ -12,8 +12,8 @@ grant create session, create table, create sequence, create procedure, create in
 grant create session;
 
 --Creando usuarios;
-create user rr_proy_admin identified by admin quota unlimited on users;
-create user rr_proy_invitado identified by inv quota 500m on users;
-grant rol_admin to rr_proy_admin;
-grant rol_invitado to rr_proy_invitado;
+create user rang_proy_admin identified by admin quota unlimited on users;
+create user rang_proy_invitado identified by inv quota 500m on users;
+grant rol_admin to rang_proy_admin;
+grant rol_invitado to rang_proy_invitado;
 
