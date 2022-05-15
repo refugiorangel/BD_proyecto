@@ -19,7 +19,7 @@ create table empleado(
     constraint empleado_pk
         primary key (empleado_id),
     constraint empleado_tipo_chk
-        check (es_gerente,es_administrativo,es_veterinario) in ((1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(1,1,1)),
+        check ((es_gerente,es_administrativo,es_veterinario) in ((1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(1,1,1))),
     constraint empleado_curp_uk
         unique (curp),
     constraint empleado_email_ik
@@ -54,7 +54,7 @@ create table centro_operativo(
     constraint centro_operativo_pk
         primary key (centro_operativo_id),
     constraint centro_operativo_tipo_chk
-        check (es_refugio,es_clinica,es_oficina) in ((1,0,0),(0,1,0),(0,0,1),(1,1,0)),
+        check ((es_refugio,es_clinica,es_oficina) in ((1,0,0),(0,1,0),(0,0,1),(1,1,0))),
     constraint centro_operativo_codigo_uk 
         unique (codigo),
     constraint centro_operativo_empleado_id_fk
@@ -88,7 +88,7 @@ create table gerente(
 create table veterinario(
     empleado_id         number(10,0)    not null,
     constraint veterinario_pk
-        primary key (veterinario_pk),
+        primary key (empleado_id),
     constraint veterinario_empleado_id_fk
         foreign key (empleado_id)
         references empleado(empleado_id)
@@ -111,7 +111,7 @@ create table refugio(
         foreign key (centro_alterno_id)
         references refugio(centro_operativo_id),
     constraint refugio_centro_alterno_chk
-        check ((refugio_alterno_id is not null and centro_operativo_id != centro_alterno_id) or centro_alterno_id is null),
+        check ((centro_alterno_id is not null and centro_operativo_id != centro_alterno_id) or centro_alterno_id is null),
     constraint refugio_centro_alterno_id_uk
         unique (centro_alterno_id)
 );
@@ -132,28 +132,28 @@ create table refugio_web(
 
 --Tabla clinica
 create table clinica(
-    centro_operativo_id           number(10,0)    not null,
-    tel_emergencia      char(10)        not null,
-    tel_cliente         char(10)        not null,
-    hora_inicio         varchar2(5)     not null,
-    hora_fin            varchar2(5)     not null,
+    centro_operativo_id   number(10,0)    not null,
+    tel_emergencia        char(10)        not null,
+    tel_cliente           char(10)        not null,
+    hora_inicio           varchar2(5)     not null,
+    hora_fin              varchar2(5)     not null,
     constraint clinica_pk
         primary key (centro_operativo_id),
     constraint clinica_centro_operativo_id_fk
         foreign key (centro_operativo_id)
         references  centro_operativo(centro_operativo_id),
     constraint clinica_tel_emergencia_uk
-        unique tel_emergencia,
+        unique (tel_emergencia),
     constraint clinica_tel_cliente_uk
-        unique tel_cliente
+        unique (tel_cliente)
 );
 
 --Tabla oficina
 create table oficina(
-    centro_operativo_id      number(10,0)    not null,
-    rfc            char(18)        not null,
-    e_firma        blob            not null,
-    responsable    varchar2(100)   not null,
+    centro_operativo_id   number(10,0)    not null,
+    rfc                   char(18)        not null,
+    e_firma               blob            not null,
+    responsable           varchar2(100)   not null,
     constraint oficina_pk
         primary key (centro_operativo_id),
     constraint oficina_centro_operativo_id_fk
@@ -161,8 +161,6 @@ create table oficina(
         references centro_operativo(centro_operativo_id),
     constraint oficina_responsable_uk
         unique (responsable),
-    constraint oficina_e_firma_uk
-        unique (e_firma),
     constraint oficina_rfc_uk
         unique (rfc)
 );
@@ -206,7 +204,7 @@ create table cliente(
 --Tabla mascota
 create table mascota(
     mascota_id              number(10,0)    not null,
-    nombre                  varchar2(10,0)  not null,
+    nombre                  varchar2(10)  not null,
     folio                   char(8)         not null,
     fecha_ingreso           date            not null,
     fecha_adopcion          date            not null,
@@ -222,7 +220,7 @@ create table mascota(
     constraint mascota_folio_uk
         unique (folio),
     constraint mascota_origren_chk
-        check tipo_ingreso in ('N','D'),
+        check (tipo_ingreso in ('N','D')),
     constraint mascota_status_id_fk
         foreign key (status_id)
         references status(status_id),
@@ -248,7 +246,7 @@ create table nacido(
     constraint nacido_mascota_progenitor_id_fk
         foreign key (mascota_progenitor_id)
         references mascota(mascota_id),
-    constraint check nacido_parcial_exclusiva_chk 
+    constraint nacido_parcial_exclusiva_chk 
         check (mascota_id != mascota_progenitor_id)
 );
 
@@ -263,7 +261,7 @@ create table donado(
         references mascota(mascota_id),
     constraint donado_cliente_id_fk
         foreign key (cliente_id)
-        references cliente(cliente_id),
+        references cliente(cliente_id)
 );
 
 --Tabla historico_status_mascota
@@ -299,9 +297,9 @@ create table mascota_cliente(
         foreign key (cliente_id)
         references cliente(cliente_id),
     constraint mascota_cliente_adoptado_chk
-        check adoptado in (1,0),
+        check (ganador in (1,0)),
     constraint mascota_cliente_descripcion_chk
-        check ((adoptado=0 and descripcion is not null) or adoptado=1),
+        check ((ganador=0 and descripcion is not null) or ganador=1),
     constraint mascota_cliente_donativo_chk
         check ((monto_donativo is not null and fecha_donativo is not null and ganador=1) or (monto_donativo is null and fecha_donativo is null))
 );
@@ -328,7 +326,7 @@ create table mascota_cliente_clinica(
 );
 
 create table empleado_mascota(
-    emlpeado_id     number(10,0)    not null,
+    empleado_id     number(10,0)    not null,
     mascota_id      number(10,0)    not null,
     estado          number(2,0)     not null,
     foto            varchar2(40)    not null,

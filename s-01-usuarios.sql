@@ -2,14 +2,11 @@
 --@Fecha creación: 09/05/2022
 --@Descripción: Creación de usuarios
 
---Conectando como sys
-connect sys/system as sysdba
-
 --Creando roles
 create role rol_admin;
 create role rol_invitado;
-grant create session, create table, create sequence, create procedure, create index to rol_invitado;
-grant create session;
+grant create session, create table, create sequence, create procedure, create any index to rol_admin;
+grant create session to rol_invitado;
 
 --Creando usuarios;
 create user rang_proy_admin identified by admin quota unlimited on users;

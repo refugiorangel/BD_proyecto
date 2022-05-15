@@ -6,22 +6,22 @@
 create sequence empleado_seq
     start with 0
     increment by 1 
-    minvalue 1
+    minvalue 0
     nocycle
     cache 5;
 
 --Secuencia empleado_titulo
-create sequece empleado_titulo_seq
+create sequence empleado_titulo_seq
     start with 0
-    incremebt by 1
-    minvalue 1
-    nocyle;
+    increment by 1
+    minvalue 0
+    nocycle;
 
 --Sequencia tabla centro
 create sequence centro_operativo_seq
     start with 0
     increment by 1
-    minvalue 1
+    minvalue 0
     nocycle
     cache 5;
 
@@ -29,28 +29,28 @@ create sequence centro_operativo_seq
 create sequence refugio_web_seq
     start with 0
     increment by 1
-    minvalue 1
+    minvalue 0
     nocycle;
 
 --Sequencia tabla status
 create sequence status_seq
     start with 0
-    minvalue 1
-    max value 7
+    minvalue 0
+    maxvalue 7
     nocycle;
 
 --Sequencia tabla tipo
 create sequence tipo_seq
     start with 0
-    incremebt by 1
-    minvalue 1
+    increment by 1
+    minvalue 0
     nocycle;
 
 --Sequencia tabla historico status mascota
 create sequence historico_status_mascota_seq
     start with 0
     increment by 1
-    minvalue 1
+    minvalue 0
     nocycle
     cache 5;
 
@@ -58,7 +58,7 @@ create sequence historico_status_mascota_seq
 create sequence cliente_seq
     start with 0
     increment by 1
-    minvalue 1
+    minvalue 0
     nocycle
     cache 5;
 
@@ -66,7 +66,7 @@ create sequence cliente_seq
 create sequence mascota_seq
     start with 0
     increment by 1
-    minvalue 1
+    minvalue 0
     nocycle
     cache 5;
 
