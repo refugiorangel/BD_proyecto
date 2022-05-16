@@ -42,15 +42,15 @@ create table empleado_titulo(
 --Tabla centro_operativo
 create table centro_operativo(
     centro_operativo_id     number(10,0)    not null,
-    nombre        varchar2(20)    not null,
-    codigo        char(5)         not null,
-    latitud       varchar2(20)    not null,
-    longitud      varchar2(20)    not null,
-    direccion     varchar2(100)   not null,
-    es_refugio    number(1,0)     not null,
-    es_clinica    number(1,0)     not null,
-    es_oficina    number(1,0)     not null,
-    empleado_id   number(10,0)    not null,
+    nombre                  varchar2(20)    not null,
+    codigo                  char(5)         not null,
+    latitud                 varchar2(20)    not null,
+    longitud                varchar2(20)    not null,
+    direccion               varchar2(100)   not null,
+    es_refugio              number(1,0)     not null,
+    es_clinica              number(1,0)     not null,
+    es_oficina              number(1,0)     not null,
+    empleado_id             number(10,0)    not null,
     constraint centro_operativo_pk
         primary key (centro_operativo_id),
     constraint centro_operativo_tipo_chk
@@ -97,7 +97,7 @@ create table veterinario(
 --Tabla refugio
 create table refugio(
     centro_operativo_id number(10,0)    not null,
-    capacidad_maxima    number(5,0)     not null,
+    capacidad_maxima    number(4,0)     not null,
     logo                varchar2(40)    not null,
     lema                varchar2(100)   not null,
     numero_registro     char(8)         not null,
@@ -204,7 +204,7 @@ create table cliente(
 --Tabla mascota
 create table mascota(
     mascota_id              number(10,0)    not null,
-    nombre                  varchar2(10)  not null,
+    nombre                  varchar2(20)    not null,
     folio                   char(8)         not null,
     fecha_ingreso           date            not null,
     fecha_adopcion          date            not null,
@@ -238,6 +238,7 @@ create table nacido(
     es_madre                number(1,0)         null,
     es_padre                number(1,0)         null,
     mascota_progenitor_id   number(10,0)    not null,
+    centro_operativo_id               number(10,0)    not null,
     constraint nacido_pk
         primary key (mascota_id),
     constraint nacido_mascota_id_fk
@@ -247,7 +248,10 @@ create table nacido(
         foreign key (mascota_progenitor_id)
         references mascota(mascota_id),
     constraint nacido_parcial_exclusiva_chk 
-        check (mascota_id != mascota_progenitor_id)
+        check (mascota_id != mascota_progenitor_id),
+    constraint nacido_centro_operativo_id_fk
+        foreign key (centro_operativo_id)
+        references refugio(centro_operativo_id)
 );
 
 --Tabla donado
