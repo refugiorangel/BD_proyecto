@@ -10,7 +10,7 @@ grant create session to rol_invitado;
 
 --Creando usuarios;
 create user rang_proy_admin identified by admin quota unlimited on users;
-create user rang_proy_invitado identified by inv quota 500m on users;
+create user rang_proy_invitado identified by invit quota 500m on users;
 grant rol_admin to rang_proy_admin;
 grant rol_invitado to rang_proy_invitado;
 

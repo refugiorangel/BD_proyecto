@@ -22,7 +22,7 @@ create table empleado(
         check ((es_gerente,es_administrativo,es_veterinario) in ((1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(1,1,1))),
     constraint empleado_curp_uk
         unique (curp),
-    constraint empleado_email_ik
+    constraint empleado_email_uk
         unique (email)
 );
 
