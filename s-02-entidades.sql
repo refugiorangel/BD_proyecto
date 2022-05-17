@@ -310,21 +310,23 @@ create table mascota_cliente(
 
 --Tabla mascota_cliente_clinica
 create table mascota_cliente_clinica(
-    costo               number(6,0)     not null,
-    numero              number(2,0)     not null,
-    nivel_salud         number(2,0)     not null,
-    observaciones       varchar2(200)   not null,
-    fecha_consulta      date            not null,
-    centro_operativo_id number(10,0)    not null,
-    mascota_id          number(10,0)    not null,
+    mascota_cliente_clinica_id  number(10,0)    not null,
+    costo                       number(6,0)     not null,
+    numero                      number(2,0)     not null,
+    nivel_salud                 number(2,0)     not null,
+    observaciones               varchar2(200)   not null,
+    fecha_consulta              date            not null,
+    centro_operativo_id         number(10,0)    not null,
+    mascota_id                  number(10,0)    not null,
+    cliente_id                  number(10,0)    not null,
     constraint mascota_cliente_clinica_pk
-        primary key (),
+        primary key (mascota_cliente_clinica_id),
     constraint mascota_cliente_clinica_centro_operativo_id_fk
         foreign key(centro_operativo_id)
-        references clinica(centro_operativo),
+        references clinica(centro_operativo_id),
     constraint mascota_cliente_clinica_mascota_id_fk
-        foreign key (mascota_id)
-        references (mascota_id),
+        foreign key (mascota_id, cliente_id)
+        references mascota_cliente(mascota_id,cliente_id),
     constraint mascota_cliente_clinica_nivel_salud_chk
         check (nivel_salud <=10 and nivel_salud >=1)
 );

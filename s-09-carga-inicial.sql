@@ -1,15 +1,15 @@
 --@Autor: Rangel de la Rosa José Refugio
---@Fecha creación: 15/05/2022
+--@Fecha creación: 16/05/2022
 --@Descripción: Carga inicial a las tablas
 
 --Tabla status
-insert into status values(status_seq.next_val,'en refugio');
-insert into status values(status_seq.next_val,'disponible adopcion');
-insert into status values(status_seq.next_val,'solicitada adopcion');
-insert into status values(status_seq.next_val,'adoptada');
-insert into status values(status_seq.next_val,'enferma');
-insert into status values(status_seq.next_val,'fallecida refugio');
-insert into status values(status_seq.next_val,'fallecida hogar');
+insert into status values(status_seq.nextval,'en refugio');
+insert into status values(status_seq.nextval,'disponible adopcion');
+insert into status values(status_seq.nextval,'solicitada adopcion');
+insert into status values(status_seq.nextval,'adoptada');
+insert into status values(status_seq.nextval,'enferma');
+insert into status values(status_seq.nextval,'fallecida refugio');
+insert into status values(status_seq.nextval,'fallecida hogar');
 
 --Tabla tipo
 insert into tipo values(tipo_seq.nextval,'ave','canario',3);

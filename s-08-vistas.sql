@@ -15,7 +15,7 @@ as select centro_operativo_id, c.nombre, direccion, empleado_id, e.nombre, curp
 from centro_operativo c join empleado e using (empleado_id);
 
 --Vista para refugio y su pagina web
-create or repalce view v_refugio_web
+create or replace view v_refugio_web
 (centro_operativo_id, nombre_refugio, direccion_web)
 as select centro_operativo_id, nombre, web from refugio natural join centro_operativo natural join refugio_web;
 
@@ -26,7 +26,7 @@ as select nombre, curp, titulo, fecha_titulacion from empleado natural join empl
 
 --Vista para empleado y su antiguedad
 create or replace view v_empleado_antiguedad
-(empeado_id, nombre_completo, curp, correo, fehca_ingreso, antiguedad)
+(empeado_id, nombre_completo, curp, fehca_ingreso, antiguedad)
 as select empleado_id, ap_paterno || ' ' || ap_materno || ' ' ||nombre as nombre_completo, curp, fecha_ingreso,trunc((sysdate - fecha_ingreso)/365) from empleado;
 
 --Vista para mascota y su tiempo en el refugio

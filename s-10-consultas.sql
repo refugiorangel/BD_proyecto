@@ -1,0 +1,3 @@
+--@Autor: Rangel de la Rosa José Refugio
+--@Fecha creación: 16/05/2022
+--@Descripción: Creacion de las consultas
