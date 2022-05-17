@@ -12,7 +12,7 @@ create table empleado(
     email               varchar2(20)    not null,
     cedula              varchar2(8)     not null,
     sueldo_mensual      number(7,2)     not null,
-    fecha_ingreso       date            not null,  
+    fecha_ingreso       date     default sysdate,  
     es_gerente          number(1,0)     not null,
     es_administrativo   number(1,0)     not null,
     es_veterinario      number(1,0)     not null,
@@ -206,11 +206,11 @@ create table mascota(
     mascota_id              number(10,0)    not null,
     nombre                  varchar2(20)    not null,
     folio                   char(8)         not null,
-    fecha_ingreso           date            not null,
-    fecha_adopcion          date            not null,
+    fecha_ingreso           date     default sysdate,
     fecha_status            date     default sysdate,
     fecha_nacimiento        date            not null,
     tipo_ingreso            char(1)         not null,
+    fecha_adopcion          date                null,
     causa_muerte            varchar2(100)       null,
     tipo_id                 number(10,0)    not null, 
     status_id               number(10,0)    not null,
@@ -234,24 +234,28 @@ create table mascota(
 
 --Tabla nacido
 create table nacido(
-    mascota_id              number(10,0)    not null,
-    es_madre                number(1,0)         null,
-    es_padre                number(1,0)         null,
-    mascota_progenitor_id   number(10,0)    not null,
-    centro_operativo_id               number(10,0)    not null,
+    mascota_id           number(10,0)    not null,
+    mascota_padre_id     number(10,0)        null,
+    mascota_madre_id     number(10,0)    not null,
+    centro_operativo_id  number(10,0)    not null,
     constraint nacido_pk
         primary key (mascota_id),
     constraint nacido_mascota_id_fk
         foreign key (mascota_id)
         references mascota(mascota_id),
-    constraint nacido_mascota_progenitor_id_fk
-        foreign key (mascota_progenitor_id)
+    constraint nacido_mascota_padre_id_fk
+        foreign key (mascota_padre_id)
         references mascota(mascota_id),
-    constraint nacido_parcial_exclusiva_chk 
-        check (mascota_id != mascota_progenitor_id),
+    constraint nacido_mascota_madre_id
+        foreign key (mascota_madre_id)
+        references mascota(mascota_id),
+    constraint nacido_padres_chk 
+        check (mascota_id != mascota_padre_id and masota_id != mascota_madre_id),
     constraint nacido_centro_operativo_id_fk
         foreign key (centro_operativo_id)
-        references refugio(centro_operativo_id)
+        references refugio(centro_operativo_id),
+    constraint naciodo_parcial_exclusiva_chk
+        check (mascota_madre_id != mascota_padre_id)
 );
 
 --Tabla donado
