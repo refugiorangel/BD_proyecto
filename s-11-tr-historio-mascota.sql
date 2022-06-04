@@ -6,11 +6,13 @@ create or replace trigger trg_hist_ststus_mascota
 after insert or update of status_id, fecha_status on mascota 
 for each row
 declare
-v_status_id number(10,0);
+v_status_id number;
 v_fecha_status date;
-v_hist_id number(10,0);
-v_mascota_id number(10,0);
+v_hist_id number;
+v_mascota_id number;
 begin
+
+
 select historico_status_mascota_seq.nextval into v_hist_id from dual;
 
 v_status_id := :new.status_id;

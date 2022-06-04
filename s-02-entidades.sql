@@ -250,7 +250,7 @@ create table nacido(
         foreign key (mascota_madre_id)
         references mascota(mascota_id),
     constraint nacido_padres_chk 
-        check (mascota_id != mascota_padre_id and masota_id != mascota_madre_id),
+        check (mascota_id != mascota_padre_id and mascota_id != mascota_madre_id),
     constraint nacido_centro_operativo_id_fk
         foreign key (centro_operativo_id)
         references refugio(centro_operativo_id),

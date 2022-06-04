@@ -12,6 +12,7 @@ connect sys/system as sysdba
 connect rang_proy_admin/admin
 --Crea las tablas necesarias
 @@s-02-entidades.sql 
+@@s-02-columnas-virtuales.sql
 --Crea las tablas temporales
 @@s-03-tablas-temporales.sql
 --Crea las tablas externas
