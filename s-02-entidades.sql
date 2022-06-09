@@ -98,7 +98,7 @@ create table veterinario(
 create table refugio(
     centro_operativo_id number(10,0)    not null,
     capacidad_maxima    number(4,0)     not null,
-    logo                varchar2(40)    not null,
+    logo                blob            not null,
     lema                varchar2(100)   not null,
     numero_registro     char(8)         not null,
     centro_alterno_id   number(10,0)        null,
@@ -209,7 +209,7 @@ create table mascota(
     fecha_ingreso           date     default sysdate,
     fecha_status            date     default sysdate,
     fecha_nacimiento        date            not null,
-    tipo_ingreso            char(1)         not null,
+    tipo_ingreso            char(1)             null,
     fecha_adopcion          date                null,
     causa_muerte            varchar2(100)       null,
     tipo_id                 number(10,0)    not null, 

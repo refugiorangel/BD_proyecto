@@ -33,5 +33,15 @@ connect rang_proy_admin/admin
 @@s-10-consultas.SQL
 --Crea trigger para el historico
 @@s-11-tr-historico-mascota.sql
---Crea trigger para 
+--Crea trigger para clinete mascota
+@@s-11-tr-cliente-mascota.sql
+--Crea trigger para las consultas de una mascota
+@@s-11-tr-mascota-cliente-consultas.sql
+--Prueba para el historico
+@@s-12-tr-historico-mascota-prueba.sql
+--Prueba para mascota clietne
+@@s-12-tr-cliente-mascota-prueba.sql
+--Prueba para las consultas de una mascota
+@@s-12-tr-mascota-cliente-consultas.sql
+
 
