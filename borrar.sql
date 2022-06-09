@@ -1,5 +1,5 @@
-drop table mascota_cliente_clinica;
-drop table mascota_cliente;
+drop table mascota_revision;
+drop table mascota_solicitud;
 drop table historico_status_mascota;
 drop table donado;
 drop table nacido;

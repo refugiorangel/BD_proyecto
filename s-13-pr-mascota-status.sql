@@ -1,6 +1,6 @@
 --@Autor: Rangel de la Rosa José Refugio
 --@Fecha creación: 06/06/2022
---@Descripción: crea una nueva mascota junto con su subtipo
+--@Descripción: crea una nueva mascota junto con su subtipo y la tabla tipo
 
 create or replace procedure pr_obtieneTipoid(
     v_nombre in varchar2, v_subcategoria in varchar2, v_nivel_cuidados in number, v_id out number

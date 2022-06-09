@@ -192,7 +192,7 @@ create table cliente(
     ap_paterno      varchar2(20)    not null,
     ap_materno      varchar2(20)    not null,
     direccion       varchar2(100)   not null,
-    ocupacion       varchar2(20)    not null,
+    ocupacion       varchar2(30)    not null,
     username        varchar2(20)    not null,
     password        varchar2(20)    not null,
     constraint cliente_pk
@@ -214,7 +214,8 @@ create table mascota(
     causa_muerte            varchar2(100)       null,
     tipo_id                 number(10,0)    not null, 
     status_id               number(10,0)    not null,
-    centro_operativo_id     number(10,0)    not null,
+    centro_operativo_id     number(10,0)        null,
+    cliente_id              number(10,0)        null,
     constraint mascota_pk
         primary key (mascota_id),
     constraint mascota_folio_uk
@@ -229,7 +230,10 @@ create table mascota(
         references refugio(centro_operativo_id),
     constraint mascota_tipo_id_fk
         foreign key (tipo_id)
-        references tipo(tipo_id)
+        references tipo(tipo_id),
+    constraint mascota_cliente_id_fk
+        foreign key (cliente_id)
+        references cliente(cliente_id)
 );
 
 --Tabla nacido
@@ -288,50 +292,63 @@ create table historico_status_mascota(
         references mascota(mascota_id)
 );
 
---Tabla mascota_cliente
-create table mascota_cliente(
+--Tabla mascota_solicitud
+create table mascota_solicitud(
     mascota_id      number(10,0)    not null,
     cliente_id      number(10,0)    not null,
-    ganador         number(1,0)     not null,
-    monto_donativo  number(6,2)         null,
-    fecha_donativo  date                null,
+    fecha_solicitud  date           not null,
     descripcion     varchar2(200)       null,
-    constraint mascota_cliente_pk
+    ganador         number(1,0)         null,
+    constraint mascota_solicitud_pk
         primary key (mascota_id,cliente_id),
-    constraint mascota_cliente_mascota_id_fk
+    constraint mascota_solicitud_mascota_id_fk
         foreign key (mascota_id)
         references mascota(mascota_id),
-    constraint mascota_cliente_cliente_id_fk
+    constraint mascota_solicitud_cliente_id_fk
         foreign key (cliente_id)
         references cliente(cliente_id),
-    constraint mascota_cliente_adoptado_chk
+    constraint mascota_solicitud_adoptado_chk
         check (ganador in (1,0)),
-    constraint mascota_cliente_descripcion_chk
+    constraint mascota_solicitud_descripcion_chk
         check ((ganador=0 and descripcion is not null) or ganador=1),
-    constraint mascota_cliente_donativo_chk
+    constraint mascota_solicitud_donativo_chk
         check ((monto_donativo is not null and fecha_donativo is not null and ganador=1) or (monto_donativo is null and fecha_donativo is null))
 );
 
---Tabla mascota_cliente_clinica
-create table mascota_cliente_clinica(
-    mascota_cliente_clinica_id  number(10,0)    not null,
-    costo                       number(6,0)     not null,
-    numero                      number(2,0)     not null,
-    nivel_salud                 number(2,0)     not null,
-    observaciones               varchar2(200)   not null,
-    fecha_consulta              date            not null,
-    centro_operativo_id         number(10,0)    not null,
-    mascota_id                  number(10,0)    not null,
-    cliente_id                  number(10,0)    not null,
-    constraint mascota_cliente_clinica_pk
-        primary key (mascota_cliente_clinica_id),
-    constraint mascota_cliente_clinica_centro_operativo_id_fk
+--Tabla donaciones
+create table donacion(
+ mascota_id      number(10,0) not null,
+ cliente_id      number(10,0) not null,
+ monto_donativo  number(7,0)  not null,
+ fecha_donativo  date         not null,
+ constraint donativo_pk
+  primary key (mascota_id, cliente_id),
+ constraint donativo_mascota_id_uk
+  unique (mascota_id)
+);
+
+--Tabla mascota_revision
+create table mascota_revision(
+    mascota_id              number(10,0)    not null,
+    numero                  number(2,0)     not null,
+    costo                   number(6,0)     not null,
+    nivel_salud             number(2,0)     not null,
+    observaciones           varchar2(200)   not null,
+    fecha_consulta          date            not null,
+    centro_operativo_id     number(10,0)    not null,
+    empleado_id             number(10,0)    not null,
+    constraint mascota_revision_pk
+        primary key (mascota_id,numero),
+    constraint mascota_revision_centro_operativo_id_fk
         foreign key(centro_operativo_id)
         references clinica(centro_operativo_id),
-    constraint mascota_cliente_clinica_mascota_id_fk
-        foreign key (mascota_id, cliente_id)
-        references mascota_cliente(mascota_id,cliente_id),
-    constraint mascota_cliente_clinica_nivel_salud_chk
+    constraint mascota_revision_mascota_id_fk
+        foreign key (mascota_id)
+        references mascota(mascota_id),
+    constraint mascota_revision_empleado_id_fk
+        foreign key (empleado_id)
+        references empleado(empleado_id),
+    constraint mascota_revision_nivel_salud_chk
         check (nivel_salud <=10 and nivel_salud >=1)
 );
 
@@ -350,6 +367,8 @@ create table empleado_mascota(
     constraint empleado_mascota_mascota_id_fk
         foreign key (mascota_id)
         references mascota(mascota_id),
-    constraint macota_empleado_estado_chk
-        check (estado <=10 and estado >=1)
+    constraint empleado_mascota_estado_chk
+        check (estado <=10 and estado >=1),
+    constraint empleado_mascota_mascota_id_ik
+        unique (mascota_id)
 );

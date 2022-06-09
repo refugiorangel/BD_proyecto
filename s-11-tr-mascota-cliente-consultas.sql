@@ -2,8 +2,8 @@
 --@Fecha creación: 16/05/2022
 --@Descripción: Creacion del tercer trigger, valida que el numero de las consultas sean consecutivas
 
-create or replace trigger trg_mascota_cliente_consultas
-before insert or delete or update fehca_consulta, numero on mascota_cliente_clinica
+create or replace trigger trg_mascota_solicitud_consultas
+before insert or delete or update fehca_consulta, numero on mascota_revision
 for each row
 declare
  v_count number;
@@ -13,7 +13,7 @@ declare
 begin 
  case 
   when inserting then
-   select max(numero), max(fecha_consulta) into v_num_ant,v_fecha_ant from mascota_cliente_clinica 
+   select max(numero), max(fecha_consulta) into v_num_ant,v_fecha_ant from mascota_revision
     where cliente_id = :new.cliente_id and mascota_id = :new.mascota_id;
    
    if 1 != :new.numero - v_num_ant then
@@ -26,7 +26,7 @@ begin
    end if;
    
   when deleting then
-   select max(numero) into v_num_ant from mascota_cliente_clinica 
+   select max(numero) into v_num_ant from mascota_revision
    where mascota_id = :old.mascota_id and cliente_id = :old.cliente_id;
   
    if :old.numero != v_num_ant then
@@ -34,11 +34,11 @@ begin
    end if; 
   
   when updating ('fecha_consulta') then
-   select fecha_consulta into v_fecha_ant from mascota_cliente_clinica 
+   select fecha_consulta into v_fecha_ant from mascota_revision
     where mascota_id = :new.mascota_id and cliente_id = :new.cliente_id and numero = :new.numero-1;
-   select fecha_consulta into v_fecha_des from mascota_cliente_clinica 
+   select fecha_consulta into v_fecha_des from mascota_revision
     where mascota_id = :new.mascota_id and cliente_id = :new.cliente_id and numero = :new.numero+1;
-   select max(numero) into v_num_ant from mascota_cliente_clinica 
+   select max(numero) into v_num_ant from mascota_revision
     where cliente_id = :new.cliente_id and mascota_id = :new.mascota_id;
    
    if :new.numero = 1 then

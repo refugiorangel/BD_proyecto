@@ -4,7 +4,7 @@
 
 --Sinonimo tabla historico_status_mascota
 create or replace public synonym historico for historico_status_mascota;
-create or replace public synonym mascota_adoptada_consultas for mascota_cliente_clinica;
+create or replace public synonym mascota_adoptada_consultas for mascota_revision;
 create or replace public synonym mascota_donada for donada;
 
 --Dando permisos de lectura al usuario invidato

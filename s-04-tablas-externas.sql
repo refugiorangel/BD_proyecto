@@ -4,7 +4,7 @@
 
 --Tabla externa historico
 connect sys/system as sysdba
-create or replace directory tmp_dir as '/tmp/proyecto';
+create or replace directory tmp_dir as '/tmp/proyecto/externa';
 grant read, write on directory tmp_dir to rang_proy_admin;
 connect rang_proy_admin/admin
 create table empleado_ext(
@@ -39,6 +39,6 @@ create table empleado_ext(
     location ('empleado_ext.csv')
 ) reject limit unlimited;
 
-!mkdir -p /tmp/proyecto
-!cp empleado_ext.csv /tmp/proyecto
-!chmod 777 /tmp/proyecto
+!mkdir -p /tmp/proyecto/externa
+!cp empleado_ext.csv /tmp/proyecto/externa
+!chmod 777 /tmp/proyecto/externa

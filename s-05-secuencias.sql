@@ -69,11 +69,3 @@ create sequence mascota_seq
     minvalue 0
     nocycle
     cache 5;
-
---Sequencia tabla mascota_cliente_clinica
-create sequence mascota_cliente_seq
-    start with 0
-    increment by 1
-    minvalue 0
-    nocycle
-    cache 5;

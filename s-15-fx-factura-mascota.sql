@@ -21,41 +21,45 @@ begin
   when 'M' then
    select mascota_id into v_mascota_id from mascota where folio = v_str;
    if v_fecha is not null then
-    select sum(costo) into v_sum from mascota_cliente_clinica where mascota_id = v_mascota_id 
+    select sum(costo) into v_sum from mascota_revision where mascota_id = v_mascota_id 
     and to_char(fecha_consulta, 'MM/YYYY') = v_fecha;
    else
-    select sum(costo) into v_sum from mascota_cliente_clinica where mascota_id = v_mascota_id;
+    select sum(costo) into v_sum from mascota_revision where mascota_id = v_mascota_id;
    end if;
 
   when 'E' then
    select empleado_id into v_empleado_id from empleado where curp = v_str;
    if v_fecha is not null then
-    select sum(costo) into v_sum from mascota_cliente_clinica where empleado_id = v_empleado_id 
+    select sum(costo) into v_sum from mascota_revision where empleado_id = v_empleado_id 
     and to_char(fecha_consulta, 'MM/YYYY') = v_fecha;
    else
-    select sum(costo) into v_sum from mascota_cliente_clinica where empleado_id = v_empleado_id;
+    select sum(costo) into v_sum from mascota_revision where empleado_id = v_empleado_id;
    end if;
 
   when 'C' then
    select cliente_id into v_cliente_id from cliente where username = v_str;
-      if v_fecha is not null then
-    select sum(costo) into v_sum from mascota_cliente_clinica where cliente_id = v_cliente_id 
-    and to_char(fecha_consulta, 'MM/YYYY') = v_fecha;
+   if v_fecha is not null then
+    select sum(r.costo) into v_sum from mascota_revision r 
+    join mascota m on m.mascota_id = r.mascota_id 
+    where m.cliente_id = v_cliente_id 
+    and to_char(r.fecha_consulta, 'MM/YYYY') = v_fecha;
    else
-    select sum(costo) into v_sum from mascota_cliente_clinica where cliente_id = v_cliente_id;
+    select sum(r.costo) into v_sum from mascota_revision r 
+    join mascota m on m.mascota_id = r.mascota_id 
+    where m.cliente_id = v_cliente_id;
    end if;
 
   when 'L' then
    select centro_operativo_id into v_centro_id from centro_operativo where codigo = v_str;
       if v_fecha is not null then
-    select sum(costo) into v_sum from mascota_cliente_clinica where centro_operativo_id = v_centro_id 
+    select sum(costo) into v_sum from mascota_revision where centro_operativo_id = v_centro_id 
     and to_char(fecha_consulta, 'MM/YYYY') = v_fecha;
    else
-    select sum(costo) into v_sum from mascota_cliente_clinica where centro_operativo_id = v_centro_id;
+    select sum(costo) into v_sum from mascota_revision where centro_operativo_id = v_centro_id;
    end if;
 
   when 'F' then
-   select sum(costo) into v_sum from mascota_cliente_clinica where to_char(fecha_consulta, 'MM/YYYY') = v_str;
+   select sum(costo) into v_sum from mascota_revision where to_char(fecha_consulta, 'MM/YYYY') = v_str;
  
  end case;
  return v_sum;

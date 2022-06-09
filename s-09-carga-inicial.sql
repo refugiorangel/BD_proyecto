@@ -39,8 +39,8 @@ insert into centro_operativo values (centro_operativo_seq.nextval,'Operativa Sur
 insert into centro_operatico values (centro_operativo_seq.nextval,'Operativa Poniente','MHJ567','69.5940','85.8739','Asistencia Pública y Norte 3, Col. Federal C.P. 08700',1,0,0,4);
 
 --Tabla refugio
-insert into refugio values (1,500,'ignacio_ramirez.png','Los ojos de un animal tienen el poder de hablar un gran lenguaje','12345678');
-insert into refugio values (4,800,'poniente.png','Mi raza favorira es adoptado','23456789');
+insert into refugio values (1,500,empty_blob(),'Los ojos de un animal tienen el poder de hablar un gran lenguaje','12345678');
+insert into refugio values (4,800,empty_blob(),'Mi raza favorira es adoptado','23456789');
 
 --Tabla clinica
 insert into clinica values (1,'5595792045','5519037519','9:00','17:00');
@@ -75,11 +75,14 @@ insert into cliente values ();
 --Tabla historio_status_mascota
 insert into historio_status_mascota values ();
 
---Tabla mascota_cliente
-insert into mascota_cliente values ();
+--Tabla mascota_solicitud
+insert into mascota_solicitud values ();
 
---Tabla mascota_cliente_clinica
-insert into mascota_cliente_clinica values ();
+--Tabla mascota_revision
+insert into mascota_revision values ();
+
+--Tabla donacion
+insert into donacion values ();
 
 --Tabla empleado_mascota
 insert into empleado_mascota values ();
