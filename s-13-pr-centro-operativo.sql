@@ -1,7 +1,10 @@
 --@Autor: Rangel de la Rosa José Refugio
 --@Fecha creación: 06/06/2022
 --@Descripción: crea un nuevo centro operativo con su subtipo
-create or replace prodedure pr_asginaPaginas(
+
+create or replace type paginas as table of varchar2(100);
+/
+create or replace procedure pr_asginaPaginas(
  v_refugio_id in number, v_nombres in paginas
 ) is 
  v_id number;
@@ -14,11 +17,11 @@ end;
 /
 
 create or replace procedure pr_centro_operativo(
-    v_nombre in varchar2, v_codigo in char(5), v_latitud in varchar2, v_longitud in varchar2
+    v_nombre in varchar2, v_codigo in char, v_latitud in varchar2, v_longitud in varchar2, 
     v_direccion in varchar2, v_curp in varchar2,
     --si es refugio
-    v_capacidad_maxima in number default null, v_lema in number default null, v_num_registro default null,
-    v_centro_codigo in number default null, v_nombes in paginas default null,
+    v_capacidad_maxima in number default null, v_lema in number default null, v_num_registro in char default null,
+    v_centro_codigo in number default null, v_nombres in paginas default null,
     --si es clinica
     v_tel_emergencia in number default null, v_tel_cliente in number default null, v_hora_inicio in number default null,
     v_hora_fin in number default null,
@@ -35,7 +38,7 @@ create or replace procedure pr_centro_operativo(
 begin
 
  select centro_operativo_seq.nextval into v_id from dual;
- select empledo_id into v_empleado_id from empleado where curp = v_curp;
+ select empleado_id into v_empleado_id from empleado where curp = v_curp;
 
  if v_capacidad_maxima is not null and v_lema is not null and v_num_registro is not null and v_nombres is not null then
   v_refugio := 1;
@@ -43,9 +46,9 @@ begin
    select centro_operativo_id into v_centro_id from centro_operativo where codigo = v_centro_codigo;
    insert into refugio values (v_id,v_capacidad_maxima,empty_blob(),v_lema,v_num_registro,v_centro_id);
   else 
-   insert into refugio values (v_id,v_capacidad_maxima,empty_blob(),v_lema,v_num_registro,);
+   insert into refugio values (v_id,v_capacidad_maxima,empty_blob(),v_lema,v_num_registro,null);
   end if;
-  exec pr_asginaPaginas(v_id, v_nombres);
+  pr_asginaPaginas(v_id, v_nombres);
  end if;
 
  if v_tel_emergencia is not null and v_tel_cliente is not null and v_hora_fin is not null and v_hora_inicio is not null then
@@ -63,8 +66,6 @@ begin
  end if;
  
  insert into centro_operativo values
- (v_id, v_nombre, v_codigo, v_latitud, v_longitud, v_direccion, v_refugio, v_clinica, v_oficina,v_empleado_id);
+ (v_id, v_nombre, v_codigo, v_latitud, v_longitud, v_direccion, v_refugio, v_clinica, v_oficina, v_empleado_id);
 end;
 /
-
-create or replace type paginas is table of varchar2(100);

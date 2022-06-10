@@ -30,7 +30,7 @@ connect rang_proy_admin/admin
 --Carga inicial de datos
 @@s-09-carga-inicial.sql
 --Consulta de datos
-@@s-10-consultas.SQL
+--@@s-10-consultas.SQL
 --Crea trigger para el historico
 @@s-11-tr-historico-mascota.sql
 --Crea trigger para clinete mascota
@@ -38,10 +38,29 @@ connect rang_proy_admin/admin
 --Crea trigger para las consultas de una mascota
 @@s-11-tr-mascota-cliente-consultas.sql
 --Prueba para el historico
-@@s-12-tr-historico-mascota-prueba.sql
+--@@s-12-tr-historico-mascota-prueba.sql
 --Prueba para mascota clietne
-@@s-12-tr-cliente-mascota-prueba.sql
+--@@s-12-tr-cliente-mascota-prueba.sql
 --Prueba para las consultas de una mascota
-@@s-12-tr-mascota-cliente-consultas.sql
+--@@s-12-tr-mascota-cliente-consultas.sql
+--Crea procedimiento para centro_operativo
+@@s-13-pr-centro-operativo.sql
+--Crea procedimiento para mascota_adoptado
+@@s-13-pr-mascota-cliente-adoptado.sql
+--Crea procedimiento crear una nueva mascota
+@@s-13-pr-mascota.sql
+--Prueba para el procedimiento de crear un centro
+--@@s-14-pr-centro-operativo-prueba.sql
+--Prueba para la adopcion de un cliente
+--@@s-14-pr-mascota-cliente-adoptado-prueba.sql
+--Prueba para crear una nueva mascota
+--@@s-14-pr-mascota-prueba.sql
+--Crea funcion para obtener la factura de la tabla mascota_revision segun los parametros
+@@s-15-fx-factura-mascota.sql
+--Crea funcion para retornar blob
+@@s-15-fx-retorna-blob.sql
+--Crea funcion para obtener el total de donaciones por cliente o por mes
+@@s-15-fx-cliente-donaciones.sql
+
 
 

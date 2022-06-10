@@ -11,10 +11,10 @@ declare
  v_id number;
 begin
  v_id := :new.cliente_id;
- select coun(*) into v_count from mascota_solicitud where cliente_id =v_id and ganador = 1;
+ select count(*) into v_count from mascota_solicitud where cliente_id =v_id and ganador = 1;
  
  if v_count = 5 then
-  raise_application_error(-20001, 'EL CLIENTE CON ID '||v_id' YA CUENTA CON 5 MASCOTAS');
+  raise_application_error(-20001, 'EL CLIENTE CON ID '||v_id||' YA CUENTA CON 5 MASCOTAS');
  end if;
 
  v_id := :new.mascota_id;

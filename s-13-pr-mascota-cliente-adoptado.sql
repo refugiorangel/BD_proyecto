@@ -11,11 +11,10 @@ create or replace procedure pr_creaSolicitud(
  v_cliente_id number;
  v_count number;
  v_status_id number;
- v_fecha date;
 begin
  select sysdate into v_fecha from dual;
- select mascota_id into v_mascota_id where folio = v_mascota_folio;
- select cliente_id into v_cliente_username where username = v_cliente_username;
+ select mascota_id into v_mascota_id from mascota where folio = v_mascota_folio;
+ select cliente_id into v_cliente_id from cliente where username = v_cliente_username;
  select count(*) into v_count from mascota_solicitud where mascota_id = v_mascota_id;
  if v_count = 0 then
   select status_id into v_status_id from status where nombre = 'solicitada adopcion';

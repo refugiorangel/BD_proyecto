@@ -5,7 +5,7 @@
 
 create or replace function fx_factura_mascota(
  v_str varchar2,
- v_tipo_factura char(1),
+ v_tipo_factura char,
  v_fecha varchar2 default null
 
 ) return number is

@@ -30,7 +30,7 @@ create table empleado(
 create table empleado_titulo(
     empleado_titulo_id  number(10,0)    not null,
     fecha_titulacion    date            not null,
-    titulo              varchar2(40)    not null,
+    titulo              varchar2(50)    not null,
     empleado_id         number(10,0)    not null,
     constraint empleado_titulo_pk
         primary key (empleado_titulo_id),
@@ -179,8 +179,9 @@ create table tipo(
 
 --Tabla status
 create table status(
-    status_id       number(10,0)    not null,
-    nombre          varchar2(20)    not null,
+    status_id   number(10,0)    not null,
+    nombre      varchar2(20)    not null,
+    clave       char(3)         not null,
     constraint status_pk
         primary key (status_id)
 );
@@ -192,9 +193,9 @@ create table cliente(
     ap_paterno      varchar2(20)    not null,
     ap_materno      varchar2(20)    not null,
     direccion       varchar2(100)   not null,
-    ocupacion       varchar2(30)    not null,
+    ocupacion       varchar2(50)    not null,
     username        varchar2(20)    not null,
-    password        varchar2(20)    not null,
+    password        varchar2(32)    not null,
     constraint cliente_pk
         primary key (cliente_id),
     constraint cliente_username_uk
@@ -310,9 +311,7 @@ create table mascota_solicitud(
     constraint mascota_solicitud_adoptado_chk
         check (ganador in (1,0)),
     constraint mascota_solicitud_descripcion_chk
-        check ((ganador=0 and descripcion is not null) or ganador=1),
-    constraint mascota_solicitud_donativo_chk
-        check ((monto_donativo is not null and fecha_donativo is not null and ganador=1) or (monto_donativo is null and fecha_donativo is null))
+        check ((ganador=0 and descripcion is not null) or ganador=1)
 );
 
 --Tabla donaciones
@@ -356,7 +355,7 @@ create table empleado_mascota(
     empleado_id     number(10,0)    not null,
     mascota_id      number(10,0)    not null,
     estado          number(2,0)     not null,
-    foto            varchar2(40)    not null,
+    foto            blob            not null,
     descripcion     varchar2(200)   not null,
     fecha_revision  date            not null,
     constraint empleado_mascota_pk
@@ -368,7 +367,7 @@ create table empleado_mascota(
         foreign key (mascota_id)
         references mascota(mascota_id),
     constraint empleado_mascota_estado_chk
-        check (estado <=10 and estado >=1),
-    constraint empleado_mascota_mascota_id_ik
-        unique (mascota_id)
+        check (estado <=10 and estado >=1)
+    --constraint empleado_mascota_mascota_id_ik
+      --  unique (mascota_id)
 );

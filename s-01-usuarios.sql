@@ -6,7 +6,7 @@
 create role rol_admin;
 create role rol_invitado;
 grant create session, create table, create sequence, create procedure, create any index, create trigger, 
-create synonym, create view to rol_admin;
+create synonym, create public synonym, create view, create type to rol_admin;
 grant create session, create synonym to rol_invitado;
 
 --Creando usuarios;

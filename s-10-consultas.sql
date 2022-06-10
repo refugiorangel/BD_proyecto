@@ -12,4 +12,3 @@ m.status_id = s.status_id and
 s.nombre = 'en refugio';
 
 --Consulta para las mascotas que han sido adoptadas
-select mascota_id, folio, 

@@ -2,6 +2,18 @@
 --@Fecha creación: 17/05/2022
 --@Descripción: Nuevas tablas con columnas virtuales
 
+create or replace function get_days (fecha_ingreso date) return number deterministic is
+begin
+    return trunc(sysdate - fecha_ingreso);
+end;
+/
+
+create or replace function get_years (fecha_nacimiento date) return number deterministic is
+begin 
+    return trunc((sysdate - fecha_nacimiento)/365);
+end;
+/
+
 --Columnas viruales en mascota
 create table mascota_virtual(
     mascota_id              number(10,0)    not null,
@@ -60,14 +72,3 @@ create table empleado_virtual(
         unique (email)
 );
 
-create or replace function get_days (fecha_ingreso date) return number deterministic is
-begin
-    return trunc(sysdate - fecha_ingreso);
-end;
-/
-
-create or replace function get_years (fecha_nacimiento date) return number deterministic is
-begin 
-    return trunc((sysdate - fecha_nacimiento)/365);
-end;
-/
