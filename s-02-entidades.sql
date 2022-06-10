@@ -97,7 +97,7 @@ create table veterinario(
 --Tabla refugio
 create table refugio(
     centro_operativo_id number(10,0)    not null,
-    capacidad_maxima    number(4,0)     not null,
+    capacidad_maxima    number(5,0)     not null,
     logo                blob            not null,
     lema                varchar2(100)   not null,
     numero_registro     char(8)         not null,
